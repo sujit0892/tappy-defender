@@ -53,10 +53,14 @@ public class TdView extends SurfaceView implements Runnable {
     int destroyed = -1;
     int win = -1;
 
-
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
     public TdView(Context context, int x, int y) {
         super(context);
-
+        prefs = context.getSharedPreferences("HiScores",
+                context.MODE_PRIVATE);
+        editor = prefs.edit();
+        fastestTime = prefs.getLong("fastestTime", 1000000);
         paint = new Paint();
         ourholder = getHolder();
 
@@ -149,6 +153,8 @@ public class TdView extends SurfaceView implements Runnable {
         if(distanceRemaining < 0){
             //soundPool.play(win,1,1,0,0,1);
             if(timeTaken<fastestTime){
+                editor.putLong("fastestTime", timeTaken);
+                editor.commit();
                 fastestTime =timeTaken;
             }
             player.update();
@@ -265,7 +271,7 @@ public class TdView extends SurfaceView implements Runnable {
             StarDust starDust = new StarDust(screenX,screenY);
             stardust.add(starDust);
         }
-        distanceRemaining = 10000;// 10 km
+        distanceRemaining = 100000;// 10 km
         timeTaken = 0;
 
         timeStarted = System.currentTimeMillis();
