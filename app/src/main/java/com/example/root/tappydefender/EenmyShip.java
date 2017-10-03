@@ -64,10 +64,7 @@ public class EenmyShip {
     }
 
     public void update(int playership){
-        hitBox.left = x;
-        hitBox.top = y;
-        hitBox.right = x + enemy.getWidth();
-        hitBox.bottom = y + enemy.getHeight();
+
         x -= playership;
         x -= speed;
         if (x < minX - enemy.getWidth()){
@@ -76,6 +73,10 @@ public class EenmyShip {
             speed = generator.nextInt(6) + 10;
             y =generator.nextInt(maxY) - enemy.getHeight();
         }
+        hitBox.left = x;
+        hitBox.top = y;
+        hitBox.right = x + enemy.getWidth();
+        hitBox.bottom = y + enemy.getHeight();
 
     }
     public Bitmap getBitmap(){

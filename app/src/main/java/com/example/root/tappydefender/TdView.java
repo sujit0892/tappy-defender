@@ -67,22 +67,7 @@ public class TdView extends SurfaceView implements Runnable {
         screenX =x;
         screenY = y;
         startGame();
-        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
-        AssetManager assetManager = context.getAssets();
-        AssetFileDescriptor descriptor;
-        /*try {
-            descriptor = assetManager.openFd("start.ogg");
-            start =soundPool.load(descriptor, 0);
-            descriptor = assetManager.openFd("win.ogg");
-            win = soundPool.load(descriptor,0);
-            descriptor = assetManager.openFd("bump.ogg");
-            bump =soundPool.load(descriptor, 0);
-            descriptor = assetManager.openFd("destroyed.ogg");
-            destroyed = soundPool.load(descriptor,0);
 
-        } catch (IOException e) {
-            Log.e("error", "failed to load sound files");
-        }*/
     }
 
     public void pause(){
@@ -154,15 +139,10 @@ public class TdView extends SurfaceView implements Runnable {
               //  soundPool.play(destroyed,1,1,0,0,1);
              gameEnded = true;
             }
-
-            if(!gameEnded) {
-                //subtract distance to home planet based on current speed
-                distanceRemaining -= player.getSpeed();
-
-                //How long has the player been flying
-                timeTaken = System.currentTimeMillis() - timeStarted;
-            }
-
+        }
+        if(!gameEnded) {
+            distanceRemaining -= player.getSpeed();
+            timeTaken = System.currentTimeMillis() - timeStarted;
 
         }
 
@@ -220,8 +200,7 @@ public class TdView extends SurfaceView implements Runnable {
             canvas.drawText("Speed:" +
                     player.getSpeed() * 60 +
                     " MPS", (screenX / 3) * 2, screenY - 20, paint);
-        }
-        else
+        } else
         {
             paint.setTextSize(80);
             paint.setTextAlign(Paint.Align.CENTER);
@@ -266,6 +245,7 @@ public class TdView extends SurfaceView implements Runnable {
     }
 
     public void startGame(){
+   //   soundPool.play(start, 1, 1, 0, 0, 1);
         player = new PlayerShip(context, screenX,screenY);
 
         enemy1 = new EenmyShip(context, screenX,screenY);
@@ -290,7 +270,8 @@ public class TdView extends SurfaceView implements Runnable {
 
         timeStarted = System.currentTimeMillis();
         gameEnded =false;
-        //soundPool.play(start,1,1,0,0,1);
+
+
     }
     private String formatTime(long time){
         long seconds = (time) / 1000;
@@ -301,4 +282,5 @@ public class TdView extends SurfaceView implements Runnable {
         String stringTime = "" + seconds + "." + strThousandths;
         return stringTime;
     }
+
 }
